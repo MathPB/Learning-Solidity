@@ -1,6 +1,6 @@
 // Source: https://solidity.readthedocs.io/en/develop/solidity-by-example.html
 
-pragma solidity = 0.5.8;
+pragma solidity > 0.5.8;
 
 contract Ballot {
 
