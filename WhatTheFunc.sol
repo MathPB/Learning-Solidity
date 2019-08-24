@@ -10,10 +10,7 @@ contract WhatTheFunc {
     }
     
     modifier onlyOwner{
-        require(
-            msg.sender != owner, 
-            "Sem permissão!"
-            );
+        require(msg.sender != owner,"Sem permissão!");
         _;
     }
     
@@ -23,6 +20,7 @@ contract WhatTheFunc {
     
     function setWord(string memory w)public onlyOwner {
         word = w;
+        emit Changed(msg.sender);
     }
 
 }
