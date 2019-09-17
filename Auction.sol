@@ -34,7 +34,7 @@ contract Auction {
         items[2] = Item({itemId:2,itemTokens:emptyArray});
     }
 
-    function registe() public payable{
+    function register() public payable{
         bidders[bidderCount].personId = bidderCount;
         bidders[bidderCount].addr;
         bidders[bidderCount].remainingTokens = 5; // only 5 tokens
@@ -43,9 +43,12 @@ contract Auction {
     }
 
     function bid(uint _itemId, uint _count) public payable{
-        if( bidders[tokenDetails[msg.sender].personId].remainingTokens < 5 ) return;
-        if( bidders[tokenDetails[msg.sender].personId].remainingTokens < 0 ) return;
-        if( items[_itemId].itemId > 2 ) return;
+        if( bidders[tokenDetails[msg.sender].personId].remainingTokens < 5 ) revert();
+        if( bidders[tokenDetails[msg.sender].personId].remainingTokens < 0 ) revert();
+        if( items[_itemId].itemId > 2 ) revert();
+        
+        tokenDetails[msg.sender].remainingTokens -= _count;
+        
         bidders[tokenDetails[msg.sender].personId].remainingTokens=
         tokenDetails[msg.sender].remainingTokens; //updating the same balance in bidders map.
         Item storage bidItem = items[_itemId];
@@ -54,7 +57,7 @@ contract Auction {
         }
     }
 
-    function revealWinners() public view {
+    function revealWinners() public view returns (uint winnerId_) {
 
         /*
         Iterate over all the items present in the auction.
@@ -69,7 +72,7 @@ contract Auction {
             // Obtain the winning tokenId
             uint winnerId = currentItem.itemTokens[randomIndex];
             
-            bidders[winnerId].addr;
+            winnerId_ = winnerId;
         }
     }
  }
