@@ -1,27 +1,29 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.5.1;
 
 contract Licitacao{
+    address public organ;
+    string public nameOrgan;
+    uint public valueOrgan;
     
-    struct Organ{
-        uint value;
-        address organAddr;
+    constructor() public{
+        organ = msg.sender;
     }
-    mapping(address => Organ) organ;
     
     struct Provider{
-        address addr; //address of the Provider
+        string razSocial;
+        address addrProviders;
     }
-    
-    address owner;
-    
     mapping(address => Provider) providers;
-    Provider[] participants;
     
-    
-    function Auction(address _organ, uint _value) public view{
-        if ( owner != msg.sender) return;
-        organ[_organ].organAddr;
-        _value.value;
+    function Auction(string memory name, uint value) public {
+        require(msg.sender == organ);
+        nameOrgan = name;
+        valueOrgan = value;
     }
-
+    
+    function register(address toRegister) public{
+        providers[toRegister].addrProviders;
+        providers[toRegister].razSocial;
+    }
+    
 }
