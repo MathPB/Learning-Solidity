@@ -2,50 +2,68 @@ pragma solidity^0.4.17;
 
 contract Bidding{
     address public organ;
-    string public nameOrgan;
+    string public nameOrgan = 'Educação';
     
     address[] public provider;
     string[] public name;
-    uint[] public value;
+    uint[] public valor;
     
-    uint public i = 0;
+    uint public minimum;
+    address public endereco;
+    string public vencedor;
+
+    uint i = 0;
     
-    uint public number = 0;
-    
-    function Bidding(string _nameOrgan) public{
+    function Bidding() public{
         organ = msg.sender;
-        nameOrgan = _nameOrgan;
     }
     
-    function enter(string _name, uint _value) public payable{
+    function enter(string _name, uint _valor) public{
         require(msg.sender != organ);
-        require(_value > 1000);
+        require(_valor > 1000);
         provider.push(msg.sender);
         name.push(_name);
-        value.push(_value);
+        valor.push(_valor);
     }
     
-    function lowestOffer() public view returns(uint minimum)  {
-        require(msg.sender == organ);
-        
+    function getProviders() public view returns (address[]){
+        return provider;
+    }
+    
+    function lowestOffer() public returns(uint _minimum)  {
         uint smallest = 9999999; 
         
-        for(i = 0; i < value.length; i++){
-            if(value[i] < smallest) {
-                smallest = value[i];
+        for(i = 0; i < valor.length; i++){
+            if(valor[i] < smallest) {
+                smallest = valor[i];
             }
-            number = i;
         }
-        return minimum = smallest;
+        _minimum = smallest;
+        minimum = _minimum;
     }
     
-    function companyWinning() public view returns(string providerWinner)  {
-        require(msg.sender == organ);
-
-        providerWinner = name[number]; 
-        provider = new address[](0);
-        name = new string[](0);
-        return providerWinner;
+    function addrWinner() public returns(address _addrWinner)  {
+        uint smallest = 9999999; 
+        
+        for(i = 0; i < valor.length; i++){
+            if(valor[i] < smallest) {
+                _addrWinner = provider[i];
+                smallest = valor[i];
+            }
+        }
+        endereco = _addrWinner;
     }
-
+    
+    function nameWinner() public returns(string _nameWinner)  {
+        uint smallest = 9999999; 
+        
+        for(i = 0; i < valor.length; i++){
+            if(valor[i] < smallest) {
+                _nameWinner = name[i];
+                smallest = valor[i];
+            }
+        }
+        vencedor = _nameWinner;
+    }
+    
 }
